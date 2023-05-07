@@ -1,8 +1,10 @@
-package devandroid.wittmann.applistacurso;
+package devandroid.wittmann.applistacurso.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import devandroid.wittmann.applistacurso.R;
 
 public class MainActivity extends AppCompatActivity {
 
