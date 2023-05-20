@@ -1,4 +1,4 @@
 package devandroid.wittmann.applistacurso.controller;
 
-public class CursoController {
+public class PessoaController {
 }
