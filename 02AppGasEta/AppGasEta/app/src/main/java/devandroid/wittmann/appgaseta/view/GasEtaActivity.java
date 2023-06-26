@@ -1,6 +1,7 @@
 package devandroid.wittmann.appgaseta.view;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,10 @@ public class GasEtaActivity extends AppCompatActivity {
     Button btnSalvar;
     Button btnFinalizar;
 
+    double precoGasolina;
+    double precoEtanol;
+    String recomendacao;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +50,34 @@ public class GasEtaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-            }
+                boolean isDadosOk = true;
+
+                if(TextUtils.isEmpty(editGasolina.getText())){
+                    editGasolina.setError("* Obrigatótio");
+                    editGasolina.requestFocus();
+                    isDadosOk = false;
+                }
+                if(TextUtils.isEmpty(editEtanol.getText())){
+                    editEtanol.setError("* Obrigatótio");
+                    editEtanol.requestFocus();
+                    isDadosOk = false;
+                }
+
+                if(isDadosOk) {
+
+                    precoGasolina = Double.parseDouble(editGasolina.getText().toString());
+                    precoEtanol = Double.parseDouble(editEtanol.getText().toString());
+
+                    recomendacao = UtilGasEta.calcularMelhorOpcao(precoGasolina, precoEtanol);
+
+                    txtResultado.setText(recomendacao);
+                }
+                    else{
+                        Toast.makeText(GasEtaActivity.this, "Digite os dados obrigatórios ...",
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+
         });
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +90,8 @@ public class GasEtaActivity extends AppCompatActivity {
         btnLimpar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                editEtanol.setText("");
+                editGasolina.setText("");
             }
         });
 
