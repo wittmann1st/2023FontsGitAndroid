@@ -75,10 +75,13 @@ public class GasEtaActivity extends AppCompatActivity {
                     recomendacao = UtilGasEta.calcularMelhorOpcao(precoGasolina, precoEtanol);
 
                     txtResultado.setText(recomendacao);
+
+                    btnSalvar.setEnabled(true);
                 }
                     else{
                         Toast.makeText(GasEtaActivity.this, "Digite os dados obrigatórios ...",
                                 Toast.LENGTH_LONG).show();
+                        btnSalvar.setEnabled(false);
                     }
                 }
 
@@ -87,8 +90,6 @@ public class GasEtaActivity extends AppCompatActivity {
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                //TODO: Desabilitar o botão Salvar.
 
                 combustivelGasolina = new Combustivel();
                 combustivelEtanol = new Combustivel();
@@ -112,7 +113,10 @@ public class GasEtaActivity extends AppCompatActivity {
             public void onClick(View view) {
                 editEtanol.setText("");
                 editGasolina.setText("");
+
+                btnSalvar.setEnabled(false);
             }
+
         });
 
         btnFinalizar.setOnClickListener(new View.OnClickListener() {
