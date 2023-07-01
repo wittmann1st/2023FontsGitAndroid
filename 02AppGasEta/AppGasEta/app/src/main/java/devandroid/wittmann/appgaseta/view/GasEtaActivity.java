@@ -13,10 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import devandroid.wittmann.appgaseta.R;
 import devandroid.wittmann.appgaseta.apoio.UtilGasEta;
+import devandroid.wittmann.appgaseta.controller.CombustivelController;
 import devandroid.wittmann.appgaseta.model.Combustivel;
 
 public class GasEtaActivity extends AppCompatActivity {
 
+    CombustivelController controller;
     Combustivel combustivelGasolina;
     Combustivel combustivelEtanol;
 
@@ -39,6 +41,8 @@ public class GasEtaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_gaseta);
+
+        controller = new CombustivelController(GasEtaActivity.this);
 
         editGasolina = findViewById(R.id.editGasolina);
         editEtanol = findViewById(R.id.editEtanol);
@@ -103,6 +107,9 @@ public class GasEtaActivity extends AppCompatActivity {
                 combustivelGasolina.setRecomendacao(UtilGasEta.calcularMelhorOpcao(precoGasolina,precoEtanol));
                 combustivelEtanol.setRecomendacao(UtilGasEta.calcularMelhorOpcao(precoGasolina,precoEtanol));
 
+                controller.Salvar(combustivelGasolina);
+                controller.Salvar(combustivelEtanol);
+
                 int parada = 0;
 
             }
@@ -115,6 +122,8 @@ public class GasEtaActivity extends AppCompatActivity {
                 editGasolina.setText("");
 
                 btnSalvar.setEnabled(false);
+
+                controller.limpar();
             }
 
         });
