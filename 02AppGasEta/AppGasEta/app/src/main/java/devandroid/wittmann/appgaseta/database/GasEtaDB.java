@@ -1,5 +1,6 @@
 package devandroid.wittmann.appgaseta.database;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,10 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import devandroid.wittmann.appgaseta.model.Combustivel;
+
 public class GasEtaDB extends SQLiteOpenHelper {
 
-    public static final String DB_NAME = "gaseta.db";
-    public static final int DB_VERSION = 1;
+    private static final String DB_NAME = "gaseta.db";
+    private static final int DB_VERSION = 1;
 
     Cursor cursor;
 
@@ -40,29 +46,50 @@ public class GasEtaDB extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {}
+
+    public void salvarObjeto(String tabela, ContentValues dados){
+
+        db.insert(tabela, null, dados);
 
     }
 
-    // Criar métodos para implementar CRUD
-    // C - Create, criar o banco de dados e as tabelas
-    // Create database nome_do_banco_de_dados.db (SQL)
-    // 1 - Nome do Banco de Dados
-    // 2 - Versão do Banco de Bados
+    public List<Combustivel> listarDados(){
+
+        List<Combustivel> lista = new ArrayList<>();
+
+        // Representa um registro que está salvo na tabela
+        // Combustível do Banco de Dados da Aplicação
+
+        Combustivel registro;
+
+        String querySQL = "SELECT * FROM Combustivel";
+
+        cursor = db.rawQuery(querySQL,null);
+
+        if(cursor.moveToFirst()){
+
+            do {
+
+                registro = new Combustivel();
+
+                registro.setId(cursor.getInt(0));
+                registro.setNomeDoCombustivel(cursor.getString(1));
+                registro.setPrecoDoCombustivel(cursor.getDouble(2));
+                registro.setRecomendacao(cursor.getString(3));
+
+                lista.add(registro);
+
+            } while (cursor.moveToNext());
+
+        }else {
 
 
+        }
 
 
-    // Create table (SQL)
-
-    // R - Retrieve, recuperar os dados salvos nas tabelas
-    // Select * from table (SQL)
-
-    // U - Update, alterar os dados existentes em um registro na tabela
-    // Update from table (SQL)
-
-    // D - Delete, deletar os dados/registros de uma tabela
-    // Delete from (SQL)
+        return lista;
+    }
 
 
 }
